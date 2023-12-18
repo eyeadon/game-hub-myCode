@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 // importing return value of api-client.ts, making variable name for it
 import apiClient from "../services/api-client";
 
-interface Game {
+export interface Game {
   id: number;
   name: string;
+  background_image: string;
 }
 
 interface FetchGamesResponse {
