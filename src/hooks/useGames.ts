@@ -26,15 +26,21 @@ interface FetchGamesResponse {
 const useGames = () => {
   const [games, setGames] = useState<Game[]>([]);
   const [error, setError] = useState("");
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     // DOM API: AbortController interface represents a controller object that allows you to abort one or more Web requests as and when desired.
     const controller = new AbortController();
 
+    setLoading(true);
+
     apiClient
       //                       endpoint
       .get<FetchGamesResponse>("/games", { signal: controller.signal })
-      .then((res) => setGames(res.data.results))
+      .then((res) => {
+        setGames(res.data.results);
+        setLoading(false);
+      })
       // error handling from axios docs
       .catch(function (err) {
         if (err.response) {
@@ -45,12 +51,14 @@ const useGames = () => {
           console.log(err.response.headers);
           // our code
           setError(err.response);
+          setLoading(false);
           // removed axios request code
         } else {
           // Something happened in setting up the request that triggered an Error
           console.log("Error", `"${err.message}"`);
           // our code
           setError(err.message);
+          setLoading(false);
         }
         console.log(err.config);
       });
@@ -61,7 +69,7 @@ const useGames = () => {
     // included an array of dependencies, without this requests are contstantly sent to backend
   }, []);
 
-  return { games, error };
+  return { games, error, isLoading };
 };
 
 export default useGames;
