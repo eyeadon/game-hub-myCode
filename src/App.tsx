@@ -8,7 +8,8 @@ function App() {
     <Grid
       templateAreas={{
         base: `"nav" "main"`,
-        lg: `"nav nav" "aside main"`, //1024px
+        lg: `"nav nav" 
+             "aside main"`, //1024px
       }}
       templateColumns={{
         base: "1fr",
