@@ -1,4 +1,6 @@
 const getCroppedImageUrl = (url: string) => {
+  if (!url) return "";
+
   const target = "media/";
   //                                to start cursor/position at the end of url
   const index = url.indexOf(target) + target.length;

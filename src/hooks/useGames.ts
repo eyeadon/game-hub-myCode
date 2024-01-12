@@ -17,15 +17,16 @@ export interface Platform {
 }
 
 const useGames = (gameQuery: GameQuery) =>
-  // params is a property of AxiosRequestConfig object
   useData<Game>(
     "/games",
     // query string parameter
     // gameQuery properties could be null
     {
+      // params is a property of AxiosRequestConfig object
       params: {
         genres: gameQuery.genre?.id,
         parent_platforms: gameQuery.platform?.id,
+        ordering: gameQuery.sortOrder,
       },
     },
     // dependencies
