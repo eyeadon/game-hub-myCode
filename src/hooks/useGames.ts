@@ -1,11 +1,5 @@
+import { GameQuery } from "../App";
 import useData from "./useData";
-import { Genre } from "./useGenres";
-
-export interface Platform {
-  id: number;
-  name: string;
-  slug: string;
-}
 
 export interface Game {
   id: number;
@@ -16,21 +10,26 @@ export interface Game {
   metacritic: number;
 }
 
-const useGames = (
-  selectedGenre: Genre | null,
-  selectedPlatform: Platform | null
-) =>
+export interface Platform {
+  id: number;
+  name: string;
+  slug: string;
+}
+
+const useGames = (gameQuery: GameQuery) =>
   // params is a property of AxiosRequestConfig object
-  // set genres to selectedGenre?.id
   useData<Game>(
     "/games",
+    // query string parameter
+    // gameQuery properties could be null
     {
       params: {
-        genres: selectedGenre?.id,
-        parent_platforms: selectedPlatform?.id,
+        genres: gameQuery.genre?.id,
+        parent_platforms: gameQuery.platform?.id,
       },
     },
-    [selectedGenre?.id, selectedPlatform?.id]
+    // dependencies
+    [gameQuery]
   );
 
 export default useGames;
