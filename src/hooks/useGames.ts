@@ -8,6 +8,7 @@ export interface Game {
   //                  weird design from API side
   parent_platforms: { platform: Platform }[];
   metacritic: number;
+  rating_top: number;
 }
 
 export interface Platform {
