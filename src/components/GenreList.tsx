@@ -16,6 +16,7 @@ interface Props {
   onSelectGenre: (genre: Genre) => void;
 }
 
+// consumer of useGenres hook
 const GenreList = ({ selectedGenre, onSelectGenre }: Props) => {
   const { data, isLoading, error } = useGenres();
 
