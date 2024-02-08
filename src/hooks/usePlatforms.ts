@@ -1,8 +1,7 @@
 // import useData from "./useData"; old way of querying was usData()
 import { useQuery } from "@tanstack/react-query";
 import platforms from "../data/platforms";
-import apiClient from "../services/api-client";
-import { FetchResponse } from "./useData";
+import apiClient, { FetchResponse } from "../services/api-client";
 
 interface Platform {
   id: number;

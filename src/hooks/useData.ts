@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
 // • importing return value of api-client.ts, making variable name for it "apiClient"
 // • axios instance
-import apiClient from "../services/api-client";
+import apiClient, { FetchResponse } from "../services/api-client";
 import { AxiosRequestConfig, CanceledError } from "axios";
-
-export interface FetchResponse<T> {
-  count: number;
-  results: T[];
-}
 
 const useData = <T>(
   // params
