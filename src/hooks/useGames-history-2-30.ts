@@ -20,18 +20,49 @@ interface PostQuery {
 
 const apiClient = new APIClient<Game>("/games");
 
+// const useGames = (gameQuery: GameQuery) =>
+//   useData<Game>(
+//     "/games",
+//     // query string parameter
+//     // gameQuery properties could be null
+//     {
+//       // params is a property of AxiosRequestConfig object
+//       params: {
+//         genres: gameQuery.genre?.id,
+//         parent_platforms: gameQuery.platform?.id,
+//         ordering: gameQuery.sortOrder,
+//         search: gameQuery.searchText,
+//       },
+//     },
+//     // dependencies
+//     [gameQuery]
+//   );
+
 const useGames = (gameQuery: GameQuery) =>
   useInfiniteQuery<FetchResponse<Game>, Error>({
     //                  like dependencies
     queryKey: ["games", gameQuery],
+    // queryFn: () =>
+    //   apiClient
+    //     .get<FetchResponse<Game>>("/games", {
+    //       // request config object, for passing query string params to back end
+    //       params: {
+    //         genres: gameQuery.genre?.id,
+    //         parent_platforms: gameQuery.platform?.id,
+    //         ordering: gameQuery.sortOrder,
+    //         search: gameQuery.searchText,
+    //       },
+    //     })
+    //     .then((res) => res.data),
+
     // cannot just use apiClient.getAll becasue we need to pass a config object
     // to getAll (queryFn is a callback)
     // react query passes pageParam as part of larger object
     queryFn: ({ pageParam = 1 }) =>
       apiClient.getAll({
         params: {
-          genres: gameQuery.genreId,
-          parent_platforms: gameQuery.platformId,
+          genres: gameQuery.genre?.id,
+          parent_platforms: gameQuery.platform?.id,
           ordering: gameQuery.sortOrder,
           search: gameQuery.searchText,
           page: pageParam,
