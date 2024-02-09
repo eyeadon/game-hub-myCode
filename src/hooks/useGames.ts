@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { GameQuery } from "../App";
-import apiClient, { FetchResponse } from "../services/api-client";
+import { Platform } from "./usePlatforms";
+import APIClient, { FetchResponse } from "../services/api-client";
 // import useData from "./useData";
 
 export interface Game {
@@ -13,11 +14,7 @@ export interface Game {
   rating_top: number;
 }
 
-export interface Platform {
-  id: number;
-  name: string;
-  slug: string;
-}
+const apiClient = new APIClient<Game>("/games");
 
 // const useGames = (gameQuery: GameQuery) =>
 //   useData<Game>(
@@ -38,21 +35,33 @@ export interface Platform {
 //   );
 
 const useGames = (gameQuery: GameQuery) =>
-  useQuery<FetchResponse<Game>, Error>({
+  useQuery<FetchResponse<Game>>({
     //                  like dependencies
     queryKey: ["games", gameQuery],
+    // queryFn: () =>
+    //   apiClient
+    //     .get<FetchResponse<Game>>("/games", {
+    //       // request config object, for passing query string params to back end
+    //       params: {
+    //         genres: gameQuery.genre?.id,
+    //         parent_platforms: gameQuery.platform?.id,
+    //         ordering: gameQuery.sortOrder,
+    //         search: gameQuery.searchText,
+    //       },
+    //     })
+    //     .then((res) => res.data),
+
+    // cannot just use apiClient.getAll becasue we need to pass a config object
+    // to getAll (queryFn is a callback)
     queryFn: () =>
-      apiClient
-        .get<FetchResponse<Game>>("/games", {
-          // request config object, for passing query string params to back end
-          params: {
-            genres: gameQuery.genre?.id,
-            parent_platforms: gameQuery.platform?.id,
-            ordering: gameQuery.sortOrder,
-            search: gameQuery.searchText,
-          },
-        })
-        .then((res) => res.data),
+      apiClient.getAll({
+        params: {
+          genres: gameQuery.genre?.id,
+          parent_platforms: gameQuery.platform?.id,
+          ordering: gameQuery.sortOrder,
+          search: gameQuery.searchText,
+        },
+      }),
 
     staleTime: 24 * 60 * 60 * 1000, // 24 hours
   });

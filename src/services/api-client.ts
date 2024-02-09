@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 
 export interface FetchResponse<T> {
   count: number;
@@ -12,28 +12,34 @@ const axiosInstance = axios.create({
   },
 });
 
-// class APIClient<T> {
-//   endpoint: string;
+class APIClient<T> {
+  endpoint: string;
 
-//   constructor(endpoint: string) {
-//     this.endpoint = endpoint;
-//   }
+  constructor(endpoint: string) {
+    this.endpoint = endpoint;
+  }
 
-//   // this issue with callbacks, could do the following in constructor
-//   // if it's a regular function:
-//   // this.getAll = this.getAll.bind(this);
+  // this issue with callbacks, could do the following in constructor
+  // if it's a regular function:
+  // this.getAll = this.getAll.bind(this);
 
-//   //  returns response object
-//   // arrow functions do not have their own this context
-//   getAll = () => {
-//     return axiosInstance.get<T[]>(this.endpoint).then((res) => res.data);
-//   };
+  //  returns response object
+  // arrow functions do not have their own this context
+  getAll = (config: AxiosRequestConfig) => {
+    return (
+      axiosInstance
+        // config is for passing config object of query string params to back end
+        // config is optional in get
+        .get<FetchResponse<T>>(this.endpoint, config)
+        .then((res) => res.data)
+    );
+  };
 
-//   post = (data: T) => {
-//     return axiosInstance.post<T>(this.endpoint, data).then((res) => res.data);
-//   };
-// }
+  post = (data: T) => {
+    return axiosInstance
+      .post<FetchResponse<T>>(this.endpoint, data)
+      .then((res) => res.data);
+  };
+}
 
-// export default APIClient;
-
-export default axiosInstance;
+export default APIClient;
