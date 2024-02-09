@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { GameQuery } from "../App";
 import { Platform } from "./usePlatforms";
 import APIClient, { FetchResponse } from "../services/api-client";
@@ -12,6 +12,10 @@ export interface Game {
   parent_platforms: { platform: Platform }[];
   metacritic: number;
   rating_top: number;
+}
+
+interface PostQuery {
+  pageSize: number;
 }
 
 const apiClient = new APIClient<Game>("/games");
@@ -35,7 +39,7 @@ const apiClient = new APIClient<Game>("/games");
 //   );
 
 const useGames = (gameQuery: GameQuery) =>
-  useQuery<FetchResponse<Game>>({
+  useInfiniteQuery<FetchResponse<Game>, Error>({
     //                  like dependencies
     queryKey: ["games", gameQuery],
     // queryFn: () =>
@@ -53,16 +57,22 @@ const useGames = (gameQuery: GameQuery) =>
 
     // cannot just use apiClient.getAll becasue we need to pass a config object
     // to getAll (queryFn is a callback)
-    queryFn: () =>
+    // react query passes pageParam as part of larger object
+    queryFn: ({ pageParam = 1 }) =>
       apiClient.getAll({
         params: {
           genres: gameQuery.genre?.id,
           parent_platforms: gameQuery.platform?.id,
           ordering: gameQuery.sortOrder,
           search: gameQuery.searchText,
+          page: pageParam,
         },
       }),
-
+    keepPreviousData: true,
+    // react query executes this fn first, then will pass object to query function above
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.next ? allPages.length + 1 : undefined;
+    },
     staleTime: 24 * 60 * 60 * 1000, // 24 hours
   });
 
