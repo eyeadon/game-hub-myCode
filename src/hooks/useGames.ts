@@ -1,9 +1,9 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { GameQuery } from "../App";
 import APIClient, { FetchResponse } from "../services/api-client";
 import { Platform } from "./usePlatforms";
 // import useData from "./useData";
 import ms from "ms";
+import useGameQueryStore from "../store";
 
 export interface Game {
   id: number;
@@ -21,8 +21,10 @@ interface PostQuery {
 
 const apiClient = new APIClient<Game>("/games");
 
-const useGames = (gameQuery: GameQuery) =>
-  useInfiniteQuery<FetchResponse<Game>, Error>({
+const useGames = () => {
+  const gameQuery = useGameQueryStore((state) => state.gameQuery);
+
+  return useInfiniteQuery<FetchResponse<Game>, Error>({
     //                  like dependencies
     queryKey: ["games", gameQuery],
     // cannot just use apiClient.getAll becasue we need to pass a config object
@@ -45,5 +47,6 @@ const useGames = (gameQuery: GameQuery) =>
     },
     staleTime: ms("24h"),
   });
+};
 
 export default useGames;
