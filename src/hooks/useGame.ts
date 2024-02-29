@@ -9,6 +9,7 @@ const useGame = (slug: string) =>
     // if slug changes, react query will fetch another game
     queryKey: ["games", slug],
     // must include () =>
+    // get single game object, this one has description_raw property
     queryFn: () => apiClient.get(slug),
   });
 

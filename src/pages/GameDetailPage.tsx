@@ -13,10 +13,14 @@ const GameDetailPage = () => {
   // console.log(searchParams.toString());
   // console.log(searchParams.get('name'));
 
+  // returns a location object with properties of the current URL
   const location = useLocation();
 
+  // grab slug from current route, ex: "the-witcher-3-wild-hunt"
   const { slug } = useParams();
+
   // ! = never null
+  // get game with description_raw
   const { data: game, isLoading, error } = useGame(slug!);
 
   if (isLoading) return <Spinner />;

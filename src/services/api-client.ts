@@ -36,6 +36,7 @@ class APIClient<T> {
     );
   };
 
+  // get single object
   get = (id: number | string) => {
     return axiosInstance
       .get<T>(this.endpoint + "/" + id)

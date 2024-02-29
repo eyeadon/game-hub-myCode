@@ -24,6 +24,7 @@ const GameCard = ({ game }: Props) => {
           <CriticScore score={game.metacritic} />
         </HStack>
         <Heading fontSize="xl">
+          {/* slug property is present in "/games" game object */}
           <Link to={"/games/" + game.slug}>{game.name}</Link>
           <Emoji rating={game.rating_top} />
         </Heading>
