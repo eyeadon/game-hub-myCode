@@ -8,6 +8,8 @@ import useGameQueryStore from "../store";
 export interface Game {
   id: number;
   name: string;
+  slug: string;
+  description_raw: string;
   background_image: string;
   //                  weird design from API side
   parent_platforms: { platform: Platform }[];
@@ -27,6 +29,7 @@ const useGames = () => {
   return useInfiniteQuery<FetchResponse<Game>, Error>({
     //                  like dependencies
     queryKey: ["games", gameQuery],
+    // ***important
     // cannot just use apiClient.getAll becasue we need to pass a config object
     // to getAll (queryFn is a callback)
     // react query passes pageParam as part of larger object

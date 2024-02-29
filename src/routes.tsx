@@ -14,7 +14,8 @@ const router = createBrowserRouter([
     children: [
       // path relative to parent, no /
       { index: true, element: <HomePage /> },
-      { path: "games/:id", element: <GameDetailPage /> },
+      // query string parameter 'slug'
+      { path: "games/:slug", element: <GameDetailPage /> },
     ],
   },
 ]);

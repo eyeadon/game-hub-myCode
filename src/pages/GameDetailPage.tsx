@@ -1,4 +1,6 @@
+import { Heading, Spinner, Text } from "@chakra-ui/react";
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
+import useGame from "../hooks/useGame";
 
 const GameDetailPage = () => {
   // hooks to get info about current route
@@ -13,7 +15,20 @@ const GameDetailPage = () => {
 
   const location = useLocation();
 
-  return <p>Game detail page</p>;
+  const { slug } = useParams();
+  // ! = never null
+  const { data: game, isLoading, error } = useGame(slug!);
+
+  if (isLoading) return <Spinner />;
+
+  if (error || !game) throw error;
+
+  return (
+    <>
+      <Heading>{game.name}</Heading>
+      <Text>{game.description_raw}</Text>;
+    </>
+  );
 };
 
 export default GameDetailPage;
