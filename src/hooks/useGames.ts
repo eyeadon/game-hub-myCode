@@ -1,21 +1,9 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import APIClient, { FetchResponse } from "../services/api-client";
-import { Platform } from "./usePlatforms";
 // import useData from "./useData";
 import ms from "ms";
 import useGameQueryStore from "../store";
-
-export interface Game {
-  id: number;
-  name: string;
-  slug: string;
-  description_raw: string;
-  background_image: string;
-  //                  weird design from API side
-  parent_platforms: { platform: Platform }[];
-  metacritic: number;
-  rating_top: number;
-}
+import { Game } from "../entities/Game";
 
 interface PostQuery {
   pageSize: number;
