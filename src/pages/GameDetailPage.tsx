@@ -2,6 +2,7 @@ import { Heading, Spinner } from "@chakra-ui/react";
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import ExpandableText from "../components/ExpandableText";
 import GameAttributes from "../components/GameAttributes";
+import GameTrailer from "../components/GameTrailer";
 import useGame from "../hooks/useGame";
 
 const GameDetailPage = () => {
@@ -9,7 +10,7 @@ const GameDetailPage = () => {
   const params = useParams();
   // console.log(params);
 
-  // (query string params, function for updating them)
+  // returns [search params -> key: value, function for updating them]
   // setSearchParams has side effect, call inside event handlers or effect
   const [searchParams, setSearchParams] = useSearchParams();
   // console.log(searchParams.toString());
@@ -34,6 +35,7 @@ const GameDetailPage = () => {
       <Heading>{game.name}</Heading>
       <ExpandableText>{game.description_raw}</ExpandableText>
       <GameAttributes game={game} />
+      <GameTrailer gameId={game.id}></GameTrailer>
     </>
   );
 };

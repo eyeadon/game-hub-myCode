@@ -8,7 +8,7 @@ const useGame = (slug: string) =>
   useQuery({
     // if slug changes, react query will fetch another game
     queryKey: ["games", slug],
-    // must include () =>
+    // must include () =>, passing a parameter to .get, need to make it a callback
     // get single game object, this one has description_raw property
     queryFn: () => apiClient.get(slug),
   });
