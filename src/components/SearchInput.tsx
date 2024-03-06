@@ -1,6 +1,7 @@
 import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 import { useRef } from "react";
 import { BsSearch } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 import useGameQueryStore from "../store";
 
 // interface Props {
@@ -12,6 +13,7 @@ const SearchInput = () => {
   // causes rerender, dependent on game query store
   // use selector instead
   const setSearchText = useGameQueryStore((state) => state.setSearchText);
+  const navigate = useNavigate();
 
   return (
     <form
@@ -19,6 +21,7 @@ const SearchInput = () => {
         // prevent event from being posted to server
         event.preventDefault();
         if (ref.current) setSearchText(ref.current.value);
+        navigate("/");
       }}
     >
       <InputGroup>
