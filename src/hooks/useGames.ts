@@ -3,7 +3,7 @@ import APIClient, { FetchResponse } from "../services/api-client";
 // import useData from "./useData";
 import ms from "ms";
 import useGameQueryStore from "../store";
-import { Game } from "../entities/Game";
+import Game from "../entities/Game";
 
 interface PostQuery {
   pageSize: number;
