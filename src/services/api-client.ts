@@ -20,7 +20,7 @@ class APIClient<T> {
     this.endpoint = endpoint;
   }
 
-  // this issue with callbacks, could do the following in constructor
+  // *this* issue with callbacks, could do the following in constructor
   // if it's a regular function:
   // this.getAll = this.getAll.bind(this);
 
