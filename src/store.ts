@@ -23,6 +23,8 @@ const useGameQueryStore = create<GameQueryStore>((set) => ({
     set((store) => ({ gameQuery: { ...store.gameQuery, genreId } })),
   setPlatformId: (platformId) =>
     set((store) => ({ gameQuery: { ...store.gameQuery, platformId } })),
+  // gameQuery searchText will be set, the other properties of gameQuery will
+  // be removed after this set operation, no spread of previous values
   setSearchText: (searchText) => set(() => ({ gameQuery: { searchText } })),
   setSortOrder: (sortOrder) =>
     set((store) => ({ gameQuery: { ...store.gameQuery, sortOrder } })),
